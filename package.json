@@ -1,0 +1,6 @@
+{
+  "name": "firefox-source-build",
+  "email": "som-anshu@users.noreply.github.com",
+  "full_name": "Firefox Source Build for Ryzen 5600H",
+  "description": "Custom Firefox build configuration optimized for AMD Ryzen 5000/5600H CPUs"
+}

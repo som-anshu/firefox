@@ -1,0 +1,45 @@
+name: Firefox Ryzen Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential python3 git clang libclang-dev \
+          libgtk-3-dev libdbus-1-dev libxt-dev libx11-xcb-dev libxcb1-dev \
+          libffi-dev libglib2.0-dev nspr-dev libnss3-dev libsqlite3-dev \
+          libevent-dev rustc cargo libhyperscan-dev
+
+    - name: Copy MOZCONFIG
+      run: |
+        cp configs/.mozconfig .mozconfig
+
+    - name: Clone Firefox source
+      run: |
+        git clone --depth 1 --branch main https://github.com/mozilla-firefox/firefox.git firefox-src
+
+    - name: Bootstrap
+      working-directory: firefox-src
+      run: |
+        ./mach bootstrap --no-confirm
+
+    - name: Build
+      working-directory: firefox-src
+      run: |
+        ./mach build
+
+    - name: Package
+      working-directory: firefox-src
+      run: |
+        ./mach package

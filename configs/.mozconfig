@@ -1,0 +1,77 @@
+# AMD Ryzen 5 5600H Optimized MOZCONFIG
+
+# Basic configuration
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-firefox
+ac_add_options --enable-application=browser
+
+# ============================================
+# CPU Optimizations for Zen 3 (Ryzen 5000)
+# ============================================
+
+# Architecture-specific optimizations
+ac_add_options --enable-targets=x86_64-linux-gtk3
+
+# Performance optimizations
+ac_add_options --disable-debug
+ac_add_options --enable-opt
+ac_add_options --enable-lto=thin
+
+# Enable advanced CPU instruction sets
+ac_add_options --enable-avx
+ac_add_options --enable-avx2
+
+# Compiler flags for Zen 3
+export CC="clang"
+export CXX="clang++"
+export CFLAGS="-march=znver3 -O3 -pipe -fno-plt -fstack-protector-strong -fPIC -fno-omit-frame-pointer -ffast-math"
+export CXXFLAGS="-march=znver3 -O3 -pipe -fno-plt -fstack-protector-strong -fPIC -fno-omit-frame-pointer -ffast-math"
+ac_add_options --enable-optimize="-O3 -march=znver3 -ffast-math"
+
+# ============================================
+# Telemetry Removal (KEEP FIREFOX SYNC)
+# ============================================
+
+# Disable all telemetry
+ac_add_options --disable-telemetry
+ac_add_options --disable-updater
+ac_add_options --disable-distribution
+
+# Firefox Sync is preserved (uses standard protocols)
+# Sync through: about:preferences#sync
+
+# ============================================
+# Remove unused/unnecessary features
+# ============================================
+
+# Debug/testing features
+ac_add_options --disable-tests
+ac_add_options --disable-benchmark
+
+# Unused backends - remove unwanted ones
+ac_add_options --disable-glx          # OpenGL GLX (keep X11)
+ac_add_options --disable-dbus         # D-Bus integration (optional)
+ac_add_options --disable-pulse          # PulseAudio (optional)
+ac_add_options --disable-gstreamer      # GStreamer (optional)
+ac_add_options --disable-alsa           # ALSA (optional)
+
+# Keep essential features
+ac_add_options --enable-rust
+ac_add_options --enable-webrtc
+ac_add_options --enable-push
+ac_add_options --enable-remote
+
+# ============================================
+# System integration
+# ============================================
+
+ac_add_options --enable-default-browser-agent=no
+
+# ============================================
+# Package settings
+# ============================================
+
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-zlib
+ac_add_options --with-system-bz2
+ac_add_options --with-system-libevent
