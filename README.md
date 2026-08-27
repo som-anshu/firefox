@@ -53,8 +53,8 @@ sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libcairo2-dev \
 
 ### 2. Clone This Repository
 ```bash
-git clone https://github.com/som-anshu/firefox-source-build.git
-cd firefox-source-build
+git clone https://github.com/som-anshu/firefox.git
+cd firefox
 ```
 
 ### 3. Clone Firefox Source
